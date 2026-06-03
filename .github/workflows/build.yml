@@ -1,19 +1,23 @@
-name: Build Android APK
+name: Build Section Factory APK
 on: [push]
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    env:
-      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Set up JDK 21
+      - name: Set up Node 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
-          java-version: '21'
+          java-version: '17'
           distribution: 'temurin'
 
       - name: Install Dependencies
@@ -21,28 +25,26 @@ jobs:
 
       - name: Build Web Project
         run: |
-          
-          npm run build -- --base=./ || npm run build || true
+          npm run build
           if [ ! -d "dist" ]; then
-            mkdir -p dist
-            cp index.html dist/ 2>/dev/null || true
+            echo "Build failed — dist folder not found"
+            exit 1
           fi
 
-      - name: Setup Capacitor Config
+      - name: Setup Capacitor
         run: |
           npm install @capacitor/core @capacitor/cli @capacitor/android
           
-          
-          
           cat <<EOF > capacitor.config.json
           {
-            "appId": "com.ec.aoo",
+            "appId": "app.sectionfactory.mobile",
             "appName": "Section Factory",
             "webDir": "dist",
             "server": {
-              "androidScheme": "https",
-              "hostname": "localhost",
-              "cleartext": true
+              "androidScheme": "https"
+            },
+            "android": {
+              "allowMixedContent": true
             }
           }
           EOF
@@ -53,21 +55,12 @@ jobs:
       - name: Build Android APK
         run: |
           cd android
-          
-          
-          echo "configurations.all {
-              resolutionStrategy.eachDependency { DependencyResolveDetails details ->
-                  if (details.requested.group == 'org.jetbrains.kotlin') {
-                      details.useVersion '1.8.22'
-                  }
-              }
-          }" >> app/build.gradle
-          
           chmod +x gradlew
-          ./gradlew assembleDebug
+          ./gradlew assembleDebug --no-daemon
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: Mobile-App-APK
+          name: SectionFactory-Debug-APK
           path: android/app/build/outputs/apk/debug/app-debug.apk
+          retention-days: 30
