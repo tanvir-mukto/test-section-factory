@@ -1,4 +1,5 @@
-name: Build Section Factory APK
+name: Build Android APK
+
 on: [push]
 
 jobs:
@@ -8,28 +9,22 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Set up Node 20
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
-          cache: 'npm'
 
-      - name: Set up JDK 17
+      - name: Set up JDK 21
         uses: actions/setup-java@v4
         with:
-          java-version: '17'
+          java-version: '21'
           distribution: 'temurin'
 
       - name: Install Dependencies
         run: npm install --force
 
-      - name: Build Web Project
-        run: |
-          npm run build
-          if [ ! -d "dist" ]; then
-            echo "Build failed — dist folder not found"
-            exit 1
-          fi
+      - name: Build Vite Project
+        run: npm run build
 
       - name: Setup Capacitor
         run: |
@@ -41,10 +36,9 @@ jobs:
             "appName": "Section Factory",
             "webDir": "dist",
             "server": {
-              "androidScheme": "https"
-            },
-            "android": {
-              "allowMixedContent": true
+              "androidScheme": "https",
+              "hostname": "localhost",
+              "cleartext": true
             }
           }
           EOF
@@ -55,12 +49,19 @@ jobs:
       - name: Build Android APK
         run: |
           cd android
+          echo "configurations.all {
+              resolutionStrategy.eachDependency { DependencyResolveDetails details ->
+                  if (details.requested.group == 'org.jetbrains.kotlin') {
+                      details.useVersion '1.8.22'
+                  }
+              }
+          }" >> app/build.gradle
+          
           chmod +x gradlew
-          ./gradlew assembleDebug --no-daemon
+          ./gradlew assembleDebug
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: SectionFactory-Debug-APK
+          name: SectionFactory-APK
           path: android/app/build/outputs/apk/debug/app-debug.apk
-          retention-days: 30
