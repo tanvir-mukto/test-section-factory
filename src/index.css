@@ -1,0 +1,104 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+
+  /* Brand Colors */
+  --color-coral: #FF5A36;
+  --color-coral-600: #E84A28;
+  --color-coral-100: #FFE7DF;
+  --color-coral-50: #FFF4F0;
+  
+  --color-amber: #FFB020;
+  --color-amber-100: #FFF1D6;
+  --color-amber-50: #FFF9EC;
+  
+  --color-yellow: #FFD93D;
+  --color-yellow-101: #FFF7CC;
+
+  /* Neutrals: Warm Gray Ink Scale */
+  --color-ink-0: #FFFFFF;
+  --color-ink-50: #FAFAF9;
+  --color-ink-100: #F4F4F2;
+  --color-ink-200: #E8E7E3;
+  --color-ink-300: #D4D2CC;
+  --color-ink-400: #A8A59C;
+  --color-ink-500: #75726A;
+  --color-ink-600: #4D4B45;
+  --color-ink-700: #2F2E2A;
+  --color-ink-800: #1B1A18;
+  --color-ink-900: #0E0D0B;
+
+  /* Foreground Roles */
+  --color-fg-1: #0E0D0B;
+  --color-fg-2: #4D4B45;
+  --color-fg-3: #75726A;
+  --color-fg-4: #A8A59C;
+  --color-fg-inverse: #FFFFFF;
+
+  /* Surfaces */
+  --color-canvas: #FAFAF9;
+  --color-surface: #FFFFFF;
+  --color-sunken: #F4F4F2;
+  --color-overlay: rgba(14, 13, 11, 0.55);
+
+  /* Semantic/Status colors */
+  --color-success-fg: #19A974;
+  --color-success-bg: #E5F7EE;
+  --color-success-strong: #0F6B43;
+  
+  --color-warning-fg: #F59E0B;
+  --color-warning-bg: #FFF4DB;
+  --color-warning-strong: #8A5A00;
+  
+  --color-danger-fg: #E5484D;
+  --color-danger-bg: #FCE8E9;
+  
+  --color-info-fg: #2E7CF6;
+  --color-info-bg: #E5EFFE;
+  --color-info-strong: #1B4B9E;
+
+  /* Borders */
+  --color-subtle: #ECEAE5;
+  --color-border-default: #E0DED8;
+  --color-strong: #C9C6BD;
+  --color-focus-ring: rgba(255, 90, 54, 0.18);
+
+  /* Radii mapping */
+  --radius-xs: 6px;
+  --radius-sm: 10px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
+  --radius-pill: 999px;
+
+  /* Shadows */
+  --shadow-1: 0 1px 2px rgba(14,13,11,.04), 0 1px 1px rgba(14,13,11,.03);
+  --shadow-2: 0 2px 8px rgba(14,13,11,.06), 0 1px 2px rgba(14,13,11,.04);
+  --shadow-3: 0 8px 24px rgba(14,13,11,.08), 0 2px 6px rgba(14,13,11,.04);
+  --shadow-4: 0 20px 48px rgba(14,13,11,.14), 0 4px 12px rgba(14,13,11,.06);
+  --shadow-coral-glow: 0 8px 20px rgba(255,90,54,.28);
+}
+
+@keyframes now-pulse {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1.0; }
+}
+
+.now-pulse-bar {
+  animation: now-pulse 2s cubic-bezier(0.2, 0.7, 0.2, 1) infinite;
+}
+
+/* Custom layout / scroll / font helpers to be absolutely bulletproof */
+html, body {
+  background-color: #FAFAF9;
+  font-family: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+  color: #0E0D0B;
+}
+
+/* Ensure monospace formatting always respects tabular figures where appropriate */
+.tabular-numbers {
+  font-variant-numeric: tabular-nums;
+}

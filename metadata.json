@@ -1,0 +1,6 @@
+{
+  "name": "Section Factory",
+  "description": "Premium dynamic academic section organizer enabling routine schedules, announcement broadcasting, classmate rosters, transport routing trackers, and institutional overrides for Students, CRs, and Faculty Admins.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
